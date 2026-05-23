@@ -38,7 +38,7 @@ if __name__ == '__main__':
     parser.add_argument('--is_training', type=int, default=1, help='status')
     parser.add_argument('--model_id', type=str, required=True, default='test', help='model id')
     parser.add_argument('--model', type=str, required=True, default='Proximal_Nonstationary_Transformer',
-                        help='model name, options: [Proximal_Nonstationary_Transformer]')
+                        help='model name')
 
     # data loader
     parser.add_argument('--data', type=str, required=True, default='ETTm1', help='dataset type')
@@ -59,9 +59,6 @@ if __name__ == '__main__':
     parser.add_argument('--pred_len', type=int, default=96, help='prediction sequence length')
     parser.add_argument('--seasonal_patterns', type=str, default='Monthly', help='subset for M4')
 
-    # DLinear
-    parser.add_argument('--individual', action='store_true', default=False, help='DLinear: a linear layer for each variate(channel) individually')
-
     # inputation task
     parser.add_argument('--mask_rate', type=float, default=0.25, help='mask ratio')
 
@@ -69,8 +66,7 @@ if __name__ == '__main__':
     parser.add_argument('--anomaly_ratio', type=float, default=0.25, help='prior anomaly ratio (%)')
 
     # model define
-    parser.add_argument('--top_k', type=int, default=5, help='for TimesBlock')
-    parser.add_argument('--num_kernels', type=int, default=6, help='for Inception')
+    parser.add_argument('--top_k', type=int, default=5, help='for ETSformer')
     parser.add_argument('--enc_in', type=int, default=7, help='encoder input size')
     parser.add_argument('--dec_in', type=int, default=7, help='decoder input size')
     parser.add_argument('--c_out', type=int, default=7, help='output size')
@@ -131,7 +127,7 @@ if __name__ == '__main__':
     if args.task_name == 'long_term_forecast':
         Exp = Exp_Long_Term_Forecast
     else:
-        raise Exception('Other tasks (e.g., Imputation, Classification) are available at TimesNet Repository')
+        raise Exception('This entry point only supports long-term forecasting')
 
     if args.is_training:
         results = []
