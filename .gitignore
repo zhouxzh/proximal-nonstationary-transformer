@@ -221,3 +221,17 @@ checkpoints/
 results/
 logs/
 test_results/
+
+# LaTeX intermediate files
+*.aux
+*.bbl
+*.blg
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.bcf
+*.run.xml
