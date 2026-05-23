@@ -1,14 +1,13 @@
 # Proximal Nonstationary Transformer
 
-A time series forecasting framework featuring the **Proximal Nonstationary Transformer** — a variant of the [Nonstationary Transformer](https://arxiv.org/abs/2205.14415) (NeurIPS 2022) with configurable window normalization strategies. The repository also includes 16 additional forecasting models and the AutoCon contrastive learning method from [Self-Supervised Contrastive Learning for Long-term Forecasting](https://openreview.net/forum?id=nBCuRujqK7) (ICLR 2024).
+A time series forecasting framework featuring the **Proximal Nonstationary Transformer** — a variant of the [Nonstationary Transformer](https://arxiv.org/abs/2205.14415) (NeurIPS 2022) with configurable window normalization strategies. The repository also includes 12 additional forecasting models.
 
 Built on top of [TSLib](https://github.com/thuml/Time-Series-Library).
 
 ## Key Features
 
 - **Proximal Nonstationary Transformer**: Extends the Nonstationary Transformer by supporting multiple normalization modes — subtract last observed value (`LastVal`), median (`Median`), mean (`Mean`), ReVIN, and decomposition-based normalization
-- **17 built-in models**: TimesNet, Autoformer, Transformer, Nonstationary Transformer, Proximal Nonstationary Transformer, DLinear, NLinear, FEDformer, Informer, LightTS, ETSformer, PatchTST, Pyraformer, MICN, Crossformer, FiLM, AutoConNet
-- **AutoCon contrastive learning**: Autocorrelation-based self-supervised contrastive loss and CNN-based architecture (AutoConNet)
+- **13 built-in models**: Autoformer, Transformer, Nonstationary Transformer, Proximal Nonstationary Transformer, NLinear, FEDformer, Informer, LightTS, ETSformer, Pyraformer, MICN, Crossformer, FiLM
 - **Gold price benchmark**: Includes GLD dataset and scripts for systematic evaluation across multiple prediction lengths and lookback windows
 
 ## Environment Setup
@@ -40,9 +39,6 @@ pip install torch numpy==1.23.5 pandas statsmodels scikit-learn einops sympy num
 | Autoformer | NeurIPS 2021 | `models/Autoformer.py` |
 | FEDformer | ICML 2022 | `models/FEDformer.py` |
 | Informer | AAAI 2021 | `models/Informer.py` |
-| TimesNet | ICLR 2023 | `models/TimesNet.py` |
-| PatchTST | ICLR 2023 | `models/PatchTST.py` |
-| DLinear | AAAI 2023 | `models/DLinear.py` |
 | NLinear | AAAI 2023 | `models/NLinear.py` |
 | Crossformer | ICLR 2023 | `models/Crossformer.py` |
 | ETSformer | ICLR 2023 | `models/ETSformer.py` |
@@ -50,7 +46,6 @@ pip install torch numpy==1.23.5 pandas statsmodels scikit-learn einops sympy num
 | Pyraformer | ICLR 2022 | `models/Pyraformer.py` |
 | MICN | ICLR 2023 | `models/MICN.py` |
 | FiLM | NeurIPS 2022 | `models/FiLM.py` |
-| AutoConNet / AutoConCI | ICLR 2024 | `models/AutoConNet.py` |
 
 ## Usage
 
@@ -79,42 +74,18 @@ The `--wnorm` parameter controls the normalization strategy:
 - `Mean` — subtract the mean (same as original Nonstationary Transformer)
 - `Median` — subtract the median
 
-### AutoCon (Self-Supervised Contrastive Learning)
-
-```bash
-python run_autocon.py \
-  --AutoCon \
-  --AutoCon_multiscales 720 \
-  --AutoCon_wnorm LastVal \
-  --AutoCon_lambda 0.1 \
-  --data ETTh2 \
-  --seq_len 336 \
-  --pred_len 720 \
-  --model AutoConNet \
-  --d_model 16 \
-  --d_ff 16 \
-  --e_layers 3 \
-  --enc_in 1 \
-  --c_out 1 \
-  --feature S \
-  --batch_size 64 \
-  --learning_rate 0.005 \
-  --itr 1
-```
-
 ### Other Models
 
 Replace `--model` with any model name from the table above. Example:
 
 ```bash
-python run.py --model PatchTST --data ETTh2 --seq_len 336 --pred_len 720 ...
+python run.py --model NLinear --data ETTh2 --seq_len 336 --pred_len 720 ...
 ```
 
 ### GLD (Gold Price) Benchmark
 
 ```bash
 bash scripts/GLD.sh
-bash scripts/AutoCon_GLD.sh
 ```
 
 ### Evaluate Saved Predictions
@@ -141,16 +112,11 @@ python metrics.py
 | `--feature` | Feature type (`M`/`S`/`MS`) | `M` |
 | `--itr` | Experiment repetitions | `1` |
 | `--train_ratio` | Train split ratio (custom data) | `0.7` |
-| `--AutoCon` | Enable AutoCon loss | `False` |
-| `--AutoCon_lambda` | AutoCon loss weight | `0.1` |
-| `--AutoCon_multiscales` | AutoCon multi-scale window | `pred_len` |
-
 ## Directory Structure
 
 ```
 ├── run.py                  # Main entry point (standard training)
-├── run_autocon.py          # AutoCon contrastive learning entry point
-├── models/                 # 17 model implementations
+├── models/                 # 13 model implementations
 ├── layers/                 # Attention, embeddings, encoders/decoders
 ├── exp/                    # Experiment classes (training/testing logic)
 ├── data_provider/          # Data loading and preprocessing

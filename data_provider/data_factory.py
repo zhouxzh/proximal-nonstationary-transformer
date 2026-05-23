@@ -22,13 +22,7 @@ def data_provider(args, flag):
     if flag == 'test':
         shuffle_flag = False
         drop_last = False # 对于test集不丢弃最后一个batch，原来是True，可能会导致结果不完整
-        if args.task_name == 'anomaly_detection' or args.task_name == 'classification':
-            batch_size = args.batch_size
-        else:
-            if args.model == 'TimesNet':
-                batch_size = 1  # bsz=1 for evaluation
-            else:
-                batch_size = args.batch_size
+        batch_size = args.batch_size
         freq = args.freq
     else:
         shuffle_flag = True
