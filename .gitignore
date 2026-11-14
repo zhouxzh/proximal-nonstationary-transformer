@@ -243,3 +243,6 @@ NST_repaired_delete_DLinear/
 # never commit SSH keys
 id_rsa
 id_rsa.pub
+
+paper/output_nst_paper_analysis/
+paper/All_results_metrics_sorted_of_JOF_rebuilt.xlsx
