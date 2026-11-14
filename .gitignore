@@ -235,3 +235,11 @@ test_results/
 *.synctex.gz
 *.bcf
 *.run.xml
+
+# paper drafts live in a private paper repository, not this public code repo
+manuscript/
+NST_repaired_delete_DLinear/
+
+# never commit SSH keys
+id_rsa
+id_rsa.pub
